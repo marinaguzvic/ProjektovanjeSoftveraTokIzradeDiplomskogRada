@@ -5,6 +5,7 @@
  */
 package rs.ac.bg.fon.silab.gui.controller;
 
+import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,8 +18,8 @@ import rs.ac.bg.fon.silab.gui.form.listener.search.CheckboxFIlter;
 import rs.ac.bg.fon.silab.gui.form.listener.search.FilterListener;
 import rs.ac.bg.fon.silab.gui.form.listener.search.RadioButtonFIlter;
 import rs.ac.bg.fon.silab.gui.form.listener.search.TextFilter;
-import rs.ac.bg.fon.silab.gui.form.FormState;
-import rs.ac.bg.fon.silab.gui.form.GeneralGUI;
+import rs.ac.bg.fion.silab.gui.general.FormState;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import rs.ac.bg.fon.silab.jpa.example1.domain.DCStudent;
 import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
 
@@ -32,9 +33,9 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
     List<DCStudent> students = new ArrayList<>();
     List<DCStudent> filteredStudents;
 
-    public GUIControllerStudentSearch(JFrame parent) throws Exception {
+    public GUIControllerStudentSearch(Frame parent, GUIControllerMain controllerMain) throws Exception {
+        super(controllerMain, parent);
         try {
-            this.parent = parent;
             createObject();
             fStudentSearch = new FStudentSearch(parent, true);
             setListeners();
@@ -56,7 +57,7 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
             } else {
                 tm = new StudentTableModel(filteredStudents);
                 fStudentSearch.getTable().setModel(tm);
-                
+
             }
 //            
         } catch (Exception ex) {
@@ -66,7 +67,7 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
 
     @Override
     public void convertGraphicalIntoDomainObject() {
-        
+
     }
 
     @Override
@@ -78,8 +79,7 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
     public void createObject() {
 
         try {
-            List<GeneralDObject> list = new ArrayList<>();
-            SOFindAll(new DCStudent(), list);
+            List<GeneralDObject> list = SOFindAll(new DCStudent());
             convertListToStudents(list);
             filteredStudents = new ArrayList<>(students);
 
@@ -91,7 +91,7 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
 
     @Override
     public void emptyGraphicalObject() {
-        
+
     }
 
     @Override
@@ -117,8 +117,6 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
         form.getAdvancedSearchPanel().getjRadioButtonPrviPutUpisaoSvi().addActionListener(new FilterListener(this));
     }
 
-    
-
     @Override
     public void filter() {
         FStudentSearch form = (FStudentSearch) fStudentSearch;
@@ -138,19 +136,19 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
     }
 
     @Override
-    public DCStudent getSelectedObject(){
-            StudentTableModel stm = (StudentTableModel) fStudentSearch.getTable().getModel();            
-            return stm.getStudents().get(fStudentSearch.getTable().getSelectedRow());
+    public DCStudent getSelectedObject() {
+        StudentTableModel stm = (StudentTableModel) fStudentSearch.getTable().getModel();
+        return stm.getStudents().get(fStudentSearch.getTable().getSelectedRow());
     }
-    
-        @Override
+
+    @Override
     public void prepareFormFor(FormState formState) {
     }
 
     private void convertListToStudents(List<GeneralDObject> list) {
         students = new ArrayList<>();
         list.forEach((generalDObject) -> {
-            students.add((DCStudent)generalDObject);
+            students.add((DCStudent) generalDObject);
         });
     }
 
@@ -166,7 +164,7 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
 
     @Override
     public void closeForm() {
-        fStudentSearch.close();                
+        fStudentSearch.close();
     }
 
     void refreshTable() {
@@ -175,6 +173,9 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
         convertDomainIntoGraphicalObject();
     }
 
+    @Override
+    public GUIControllerMain getConrollerMain() {
+        return controllerMain;
+    }
 
-    
 }

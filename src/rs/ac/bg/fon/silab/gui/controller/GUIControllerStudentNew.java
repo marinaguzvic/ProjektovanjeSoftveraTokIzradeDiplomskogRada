@@ -5,14 +5,16 @@
  */
 package rs.ac.bg.fon.silab.gui.controller;
 
+import java.awt.Frame;
 import javax.swing.JFrame;
 import rs.ac.bg.fon.silab.constants.Constants;
 import rs.ac.bg.fon.silab.gui.form.FStudentNew;
-import rs.ac.bg.fon.silab.gui.form.FormState;
-import rs.ac.bg.fon.silab.gui.form.GeneralGUI;
+import rs.ac.bg.fion.silab.gui.general.FormState;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import rs.ac.bg.fon.silab.gui.form.listener.create.generateindex.GenerateBrojIndeksaListener;
 import rs.ac.bg.fon.silab.jpa.example1.domain.DCStudent;
 import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
+import transfer.util.IOperation;
 
 /**
  *
@@ -24,8 +26,8 @@ public class GUIControllerStudentNew extends GeneralControllerNew {
     FStudentNew fStudentNew;
     GUIControllerStudentSearch controllerStudentSearch;
 
-    public GUIControllerStudentNew(JFrame parent) {
-        this.parent = parent;
+    public GUIControllerStudentNew(Frame parent, GUIControllerMain controllerMain) {
+        super(controllerMain, parent);
         createObject();
         fStudentNew = new FStudentNew(parent, true);
         setListeners();
@@ -34,7 +36,8 @@ public class GUIControllerStudentNew extends GeneralControllerNew {
 
     }
 
-    public GUIControllerStudentNew(GUIControllerStudentSearch gcs,JFrame parent, DCStudent student) {
+    public GUIControllerStudentNew(GUIControllerStudentSearch gcs, Frame parent, GUIControllerMain controllerMain, DCStudent student) {
+        super(controllerMain, parent);
         controllerStudentSearch = gcs;
         this.parent = parent;
         this.student = student;
@@ -84,16 +87,15 @@ public class GUIControllerStudentNew extends GeneralControllerNew {
     public void setListeners() {
         super.setListeners();
         fStudentNew.getGenerisiBrojIndeksa().addActionListener(new GenerateBrojIndeksaListener(this));
-        
+
     }
-    
 
     @Override
     public void prepareFormFor(FormState formState) {
         switch (formState) {
             case INSERT:
                 fStudentNew.getGenerisiBrojIndeksa().setEnabled(true);
-                fStudentNew.getSave().setVisible(true);
+                fStudentNew.getSave().setVisible(false);
                 fStudentNew.getUpdate().setVisible(false);
                 fStudentNew.getEdit().setVisible(false);
                 break;
@@ -112,7 +114,9 @@ public class GUIControllerStudentNew extends GeneralControllerNew {
                 fStudentNew.getjCheckBoxPrviPutUpisao().setEnabled(false);
                 fStudentNew.getjDateRodjenja().setEditable(false);
                 fStudentNew.getjSpinnerGodinaStudija().setEnabled(false);
-                if(controllerStudentSearch != null)controllerStudentSearch.refreshTable();
+                if (controllerStudentSearch != null) {
+                    controllerStudentSearch.refreshTable();
+                }
                 break;
             case EDIT:
                 fStudentNew.getGenerisiBrojIndeksa().setEnabled(false);
@@ -153,12 +157,12 @@ public class GUIControllerStudentNew extends GeneralControllerNew {
         return student;
     }
 
-    public GeneralDObject SOGenerateBrojIndeksa() {
-        return SOCall(Constants.SOCall.SO_GENERATE_BROJ_INDEKSA, student);
-    }
-
     public void setStudent(GeneralDObject gdo) {
         student = (DCStudent) gdo;
     }
 
+    @Override
+    public GUIControllerMain getConrollerMain() {
+        return controllerMain;
+    }
 }

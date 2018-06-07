@@ -5,12 +5,19 @@
  */
 package rs.ac.bg.fon.silab.gui.controller;
 
+import java.awt.Frame;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.List;
-import javax.swing.JFrame;
-import rs.ac.bg.fon.silab.constants.Constants;
-import rs.ac.bg.fon.silab.gui.form.GeneralGUI;
-import rs.ac.bg.fon.silab.gui.form.FormState;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
+import rs.ac.bg.fion.silab.gui.general.FormState;
+import rs.ac.bg.fon.silab.jpa.example1.domain.DCKorisnik;
 import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
+import rs.ac.bg.fon.silab.session.Session;
+import transfer.request.RequestObject;
+import transfer.response.ResponseObject;
+import transfer.util.IOperation;
+import transfer.util.IStatus;
 
 /**
  *
@@ -18,47 +25,77 @@ import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
  */
 public abstract class GUIControllerDialog extends GeneralGUIController {
 
-    protected JFrame parent;
+    protected GUIControllerMain controllerMain;
+    protected Frame parent;
+
+    public GUIControllerDialog(GUIControllerMain controllerMain, Frame parent) {
+        this.controllerMain = controllerMain;
+        this.parent = parent;
+    }
+
+    public GeneralDObject SOGenerateBrojIndeksa(GeneralDObject gdo) {
+        return (GeneralDObject) proccessResponse(SOCall(IOperation.SO_GENERATE_BROJ_INDEKSA, gdo));
+    }
 
     //System operations
     public GeneralDObject SOSave(GeneralDObject gdo) {
-        return SOCall(Constants.SOCall.SO_SAVE, gdo);
+        return (GeneralDObject) proccessResponse(SOCall(IOperation.SO_SAVE, gdo));
+    }
+
+    private Object proccessResponse(ResponseObject response) {
+        if (response.getCode() == IStatus.OK) {
+            return  response.getData();
+        } else {
+            showMessage(response.getMessage());
+            return null;
+        }
+    }
+
+    public void SOConnect(String address, int port) throws IOException {
+        Socket socket = new Socket(address, port);
+        Session.getInstance().setSocket(socket);
+    }
+
+    public void SODisconnect() throws Exception {
+        SOLogout();
+        Session.getInstance().getOutput().close();
+        Session.getInstance().getInput().close();
+        Session.getInstance().getSocket().close();
     }
 
     public GeneralDObject SOUpdate(GeneralDObject gdo) {
-        return SOCall(Constants.SOCall.SO_UPDATE, gdo);
+        return (GeneralDObject) proccessResponse(SOCall(IOperation.SO_UPDATE, gdo));
     }
 
     public GeneralDObject SOFindByID(GeneralDObject gdo) {
-        return SOCall(Constants.SOCall.SO_FIND_BY_ID, gdo);
+        return (GeneralDObject) proccessResponse(SOCall(IOperation.SO_FIND_BY_ID, gdo));
     }
 
     public void SOSaveList(List<GeneralDObject> gdo) {
         for (GeneralDObject generalDObject : gdo) {
-            SOCall(Constants.SOCall.SO_SAVE, generalDObject);
+            proccessResponse(SOCall(IOperation.SO_SAVE, generalDObject));
         }
     }
 
-    public void SOFindAll(GeneralDObject gdo, List<GeneralDObject> list) {
-        SOCall(Constants.SOCall.SO_FIND_ALL, list, gdo);
+    public List<GeneralDObject> SOFindAll(GeneralDObject gdo) {
+        return (List<GeneralDObject>) proccessResponse(SOCall(IOperation.SO_FIND_ALL, gdo));
     }
 
-//    public void SOFindWhere(GeneralDObject gdo, List<GeneralDObject> list, String where) {
-//        SOCall(Constants.SOCall.SO_FIND_WHERE, list, gdo, where);
-//    }
+    public void SOLogin(GeneralDObject gdo) throws Exception {
+        DCKorisnik korisnik = (DCKorisnik) proccessResponse(SOCall(IOperation.LOGIN, gdo));
+        if (korisnik == null) {
+            throw new Exception("Logovanje neuspesno");
+        }
+        Session.getInstance().setKorisnik(korisnik);
+    }
 
-    protected GeneralDObject SOCall(String SOName, GeneralDObject gdo) {
+    protected ResponseObject SOCall(String SOName, GeneralDObject gdo) {
         try {
-            switch (SOName) {
-                case Constants.SOCall.SO_SAVE:
-                    return Controller.getInstance().save(gdo);
-                case Constants.SOCall.SO_UPDATE:
-                    return Controller.getInstance().update(gdo);
-                case Constants.SOCall.SO_GENERATE_BROJ_INDEKSA:
-                    return Controller.getInstance().generateNewBrojIndeksa(gdo);
-                case Constants.SOCall.SO_FIND_BY_ID:
-                    return Controller.getInstance().findByID(gdo);
-            }
+            RequestObject request = new RequestObject();
+            request.setData(gdo);
+            request.setOperation(SOName);
+            sendRequest(request);
+            return recieveResponse();
         } catch (Exception e) {
             e.printStackTrace();
             showMessage(e.getMessage());
@@ -66,38 +103,8 @@ public abstract class GUIControllerDialog extends GeneralGUIController {
         return null;
     }
 
-
-
-    protected void SOCall(String SOName, List<GeneralDObject> list, GeneralDObject gdo) {
-        try {
-            switch (SOName) {
-
-                case Constants.SOCall.SO_FIND_ALL:
-                    Controller.getInstance().findAll(gdo, list);
-                    break;
-                case Constants.SOCall.SO_FIND_WHERE:
-                    Controller.getInstance().findByWhere(gdo, SOName, list);
-                    break;
-            }
-        } catch (Exception ex) {
-            showMessage(ex.getMessage());
-        }
-    }
-
-    protected void SOCall(String SOName, List<GeneralDObject> list, GeneralDObject gdo, String where) {
-        try {
-            switch (SOName) {
-                case Constants.SOCall.SO_FIND_WHERE:
-                    Controller.getInstance().findByWhere(gdo, where, list);
-                default:
-            }
-        } catch (Exception ex) {
-            showMessage(ex.getMessage());
-        }
-    }
-
     @Override
-    public JFrame getfParent() {
+    public Frame getfParent() {
         return parent;
     }
 
@@ -118,5 +125,44 @@ public abstract class GUIControllerDialog extends GeneralGUIController {
     public abstract void setListeners();
 
     public abstract void prepareFormFor(FormState formState);
+
+    private void sendRequest(RequestObject request) throws IOException {
+        try {
+            Session.getInstance().getOutput().writeObject(request);
+            Session.getInstance().getOutput().flush();
+        } catch (Exception ex) {
+            showMessage(ex.getMessage());
+            logout();
+        }
+
+    }
+
+    private ResponseObject recieveResponse() throws IOException {
+        try {
+            return (ResponseObject) Session.getInstance().getInput().readObject();
+        } catch (Exception ex) {
+            showMessage(ex.getMessage());
+            logout();
+            return null;
+        }
+    }
+
+    public void logout() throws IOException {
+        if (Session.getInstance().getKorisnik() != null) {
+            SOLogout();
+            controllerMain.logout();
+        }
+    }
+
+    public void login(DCKorisnik gdo) throws Exception {
+        SOLogin(gdo);
+        controllerMain.login();
+    }
+
+    public void SOLogout() throws IOException {
+        GeneralDObject korisnik = (GeneralDObject) proccessResponse(SOCall(IOperation.LOGOUT, Session.getInstance().getKorisnik()));
+        Session.getInstance().setKorisnik(null);
+        Session.getInstance().closeSocket();
+    }
 
 }

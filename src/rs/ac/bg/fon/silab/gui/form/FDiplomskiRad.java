@@ -5,6 +5,8 @@
  */
 package rs.ac.bg.fon.silab.gui.form;
 
+import rs.ac.bg.fion.silab.gui.general.GeneralGUINew;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;

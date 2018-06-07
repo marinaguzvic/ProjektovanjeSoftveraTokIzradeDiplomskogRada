@@ -27,7 +27,7 @@ public class ViewListener implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        GUIControllerStudentNew gcsn = new GUIControllerStudentNew((GUIControllerStudentSearch) gcs,gcs.getfParent(), (DCStudent) gcs.getSelectedObject());
+        GUIControllerStudentNew gcsn = new GUIControllerStudentNew((GUIControllerStudentSearch) gcs,gcs.getfParent(), gcs.getControllerMain(),(DCStudent) gcs.getSelectedObject());
         
     }
     

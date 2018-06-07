@@ -28,7 +28,7 @@ public class StudentNewListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            GUIControllerStudentNew gcn = new GUIControllerStudentNew(ggc.getfParent());
+            GUIControllerStudentNew gcn = new GUIControllerStudentNew(ggc.getfParent(),ggc.getConrollerMain());
             System.out.println("akcija izvrsena");
         }
         

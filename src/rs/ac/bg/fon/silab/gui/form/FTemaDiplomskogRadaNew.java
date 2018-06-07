@@ -5,6 +5,8 @@
  */
 package rs.ac.bg.fon.silab.gui.form;
 
+import rs.ac.bg.fion.silab.gui.general.GeneralGUINew;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import java.awt.Dimension;
 import static java.awt.image.ImageObserver.WIDTH;
 import javax.swing.BoxLayout;

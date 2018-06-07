@@ -5,8 +5,9 @@
  */
 package rs.ac.bg.fon.silab.gui.controller;
 
+import java.awt.Frame;
 import javax.swing.JButton;
-import rs.ac.bg.fon.silab.gui.form.GeneralGUISearch;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUISearch;
 import rs.ac.bg.fon.silab.gui.form.listener.create.SelectListener;
 import rs.ac.bg.fon.silab.gui.form.listener.search.AdvancedSearchListener;
 import rs.ac.bg.fon.silab.gui.form.listener.search.BasicSearchListener;
@@ -18,8 +19,16 @@ import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
  * @author MARINA
  */
 public abstract class GeneralControllerSearch extends GUIControllerDialog{
-    
 
+    public GeneralControllerSearch(GUIControllerMain controllerMain, Frame parent) {
+        super(controllerMain, parent);
+    }
+
+    public GUIControllerMain getControllerMain() {
+        return controllerMain;
+    }
+    
+    
 
     @Override
     public void setListeners() {

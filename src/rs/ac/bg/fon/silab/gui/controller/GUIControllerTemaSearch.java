@@ -5,14 +5,14 @@
  */
 package rs.ac.bg.fon.silab.gui.controller;
 
+import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.table.TableModel;
 import rs.ac.bg.fon.silab.form.components.table.model.TemaSearchTableModel;
 import rs.ac.bg.fon.silab.gui.form.FTemaDiplomskogRadaSearch;
-import rs.ac.bg.fon.silab.gui.form.FormState;
-import rs.ac.bg.fon.silab.gui.form.GeneralGUI;
+import rs.ac.bg.fion.silab.gui.general.FormState;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import rs.ac.bg.fon.silab.gui.form.listener.search.ComboBoxFilter;
 import rs.ac.bg.fon.silab.gui.form.listener.search.FilterListener;
 import rs.ac.bg.fon.silab.gui.form.listener.search.TextFilter;
@@ -25,15 +25,16 @@ import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
  * @author MARINA
  */
 public class GUIControllerTemaSearch extends GeneralControllerSearch {
-    
+
     List<DCTemaDiplomskogRada> teme;
     List<DCTemaDiplomskogRada> filteredTeme;
     FTemaDiplomskogRadaSearch fTemaDiplomskogRadaSearch;
-    
-    public GUIControllerTemaSearch(JFrame parent) {
-        this.parent = parent;
-        createObject();
+
+    public GUIControllerTemaSearch(Frame parent, GUIControllerMain controllerMain) {
+        super(controllerMain, parent);
+        
         fTemaDiplomskogRadaSearch = new FTemaDiplomskogRadaSearch(parent, true);
+        createObject();
         convertDomainIntoGraphicalObject();
         populateComboPredmet();
         fTemaDiplomskogRadaSearch.initButtonsSearch();
@@ -41,12 +42,12 @@ public class GUIControllerTemaSearch extends GeneralControllerSearch {
         prepareFormFor(FormState.VIEW);
         fTemaDiplomskogRadaSearch.setVisible(true);
     }
-    
+
     @Override
     public void emptyGraphicalObject() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public void convertGraphicalIntoDomainObject() {
         teme = ((TemaSearchTableModel) fTemaDiplomskogRadaSearch.getjTableTeme().getModel()).getTeme();
@@ -56,16 +57,15 @@ public class GUIControllerTemaSearch extends GeneralControllerSearch {
     public void convertDomainIntoGraphicalObject() {
         populateTable();
     }
-    
+
     @Override
     public void createObject() {
         teme = new ArrayList<>();
-        List<GeneralDObject> list = new ArrayList<>();
-        SOFindAll(new DCTemaDiplomskogRada(),list);
+        List<GeneralDObject> list = SOFindAll(new DCTemaDiplomskogRada());
         convertListToTeme(list);
         filteredTeme = new ArrayList<>(teme);
     }
-    
+
     @Override
     public void setListeners() {
         super.setListeners();
@@ -74,17 +74,17 @@ public class GUIControllerTemaSearch extends GeneralControllerSearch {
         fTemaDiplomskogRadaSearch.getAdvancedSearchPanel().getjComboBoxPredmet().addActionListener(new FilterListener(this));
         fTemaDiplomskogRadaSearch.getAdvancedSearchPanel().getjTxtOpis().getDocument().addDocumentListener(new FilterListener(this));
     }
-    
+
     @Override
     public void prepareFormFor(FormState formState) {
-        switch(formState){
+        switch (formState) {
             case VIEW:
                 getView().setVisible(false);
                 break;
-                
+
         }
     }
-    
+
     @Override
     public void populateTable() {
         try {
@@ -94,20 +94,20 @@ public class GUIControllerTemaSearch extends GeneralControllerSearch {
             } else {
                 tm = new TemaSearchTableModel(filteredTeme);
                 fTemaDiplomskogRadaSearch.getjTableTeme().setModel(tm);
-                
+
             }
 //            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    
+
     private void convertListToTeme(List<GeneralDObject> list) {
         list.forEach((generalDObject) -> {
             teme.add((DCTemaDiplomskogRada) generalDObject);
         });
     }
-    
+
     @Override
     public void filter() {
         FTemaDiplomskogRadaSearch form = (FTemaDiplomskogRadaSearch) fTemaDiplomskogRadaSearch;
@@ -121,10 +121,9 @@ public class GUIControllerTemaSearch extends GeneralControllerSearch {
             }
         }
     }
-    
+
     private void populateComboPredmet() {
-        List<GeneralDObject> list = new ArrayList<>();
-        SOFindAll(new DCPredmet(),list);
+        List<GeneralDObject> list = SOFindAll(new DCPredmet());
         fTemaDiplomskogRadaSearch.getAdvancedSearchPanel().getjComboBoxPredmet().addItem(new DCPredmet("Svi"));
         for (GeneralDObject generalDObject : list) {
             fTemaDiplomskogRadaSearch.getAdvancedSearchPanel().getjComboBoxPredmet().addItem((DCPredmet) generalDObject);
@@ -133,8 +132,8 @@ public class GUIControllerTemaSearch extends GeneralControllerSearch {
 
     @Override
     public GeneralDObject getSelectedObject() {
-        TemaSearchTableModel ttm = (TemaSearchTableModel) fTemaDiplomskogRadaSearch.getjTableTeme().getModel();            
-            return ttm.getTeme().get(fTemaDiplomskogRadaSearch.getjTableTeme().getSelectedRow());
+        TemaSearchTableModel ttm = (TemaSearchTableModel) fTemaDiplomskogRadaSearch.getjTableTeme().getModel();
+        return ttm.getTeme().get(fTemaDiplomskogRadaSearch.getjTableTeme().getSelectedRow());
     }
 
     @Override
@@ -152,6 +151,9 @@ public class GUIControllerTemaSearch extends GeneralControllerSearch {
         fTemaDiplomskogRadaSearch.close();
     }
 
+    @Override
+    public GUIControllerMain getConrollerMain() {
+        return controllerMain;
+    }
 
-    
 }

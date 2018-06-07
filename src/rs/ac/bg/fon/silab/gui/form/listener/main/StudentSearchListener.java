@@ -31,7 +31,7 @@ public class StudentSearchListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
 
             try {
-                GUIControllerDialog gcd = new GUIControllerStudentSearch(ggc.getfParent());
+                GUIControllerDialog gcd = new GUIControllerStudentSearch(ggc.getfParent(),ggc.getConrollerMain());
                 
             } catch (Exception ex) {
                 //Obraditi gresku, prikazati poruku

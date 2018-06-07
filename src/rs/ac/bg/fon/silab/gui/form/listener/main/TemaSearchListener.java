@@ -24,6 +24,6 @@ public class TemaSearchListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        GUIControllerTemaSearch controllerTemaSearch = new GUIControllerTemaSearch(ggc.getfParent());
+        GUIControllerTemaSearch controllerTemaSearch = new GUIControllerTemaSearch(ggc.getfParent(),ggc.getConrollerMain());
     }
 }

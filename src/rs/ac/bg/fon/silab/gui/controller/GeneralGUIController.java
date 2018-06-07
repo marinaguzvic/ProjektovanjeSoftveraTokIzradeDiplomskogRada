@@ -5,12 +5,15 @@
  */
 package rs.ac.bg.fon.silab.gui.controller;
 
-import javax.swing.JFrame;
+import java.awt.Frame;
+import rs.ac.bg.fon.silab.gui.form.FMain;
 
 /**
  *
  * @author MARINA
  */
 public abstract class GeneralGUIController {
-        public abstract JFrame getfParent();
+
+    public abstract Frame getfParent();
+    public abstract GUIControllerMain getConrollerMain();
 }

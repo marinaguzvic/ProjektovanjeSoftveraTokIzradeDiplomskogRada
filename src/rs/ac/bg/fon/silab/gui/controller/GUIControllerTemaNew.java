@@ -5,6 +5,7 @@
  */
 package rs.ac.bg.fon.silab.gui.controller;
 
+import java.awt.Frame;
 import rs.ac.bg.fon.silab.gui.form.listener.create.SaveListListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
 import rs.ac.bg.fon.silab.form.components.table.model.TemaTableModel;
 import rs.ac.bg.fon.silab.gui.form.FTemaDiplomskogRadaNew;
-import rs.ac.bg.fon.silab.gui.form.FormState;
-import rs.ac.bg.fon.silab.gui.form.GeneralGUI;
+import rs.ac.bg.fion.silab.gui.general.FormState;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import rs.ac.bg.fon.silab.gui.form.listener.create.CancelListener;
 import rs.ac.bg.fon.silab.gui.form.listener.tema.AddListener;
 import rs.ac.bg.fon.silab.gui.form.listener.tema.RemoveListener;
@@ -32,13 +33,13 @@ import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
  *
  * @author MARINA
  */
-public class GUIControllerTemaNew extends GeneralControllerNew implements GUIListNew,GUIControllerTableNew{
+public class GUIControllerTemaNew extends GeneralControllerNew implements GUIListNew, GUIControllerTableNew {
 
     FTemaDiplomskogRadaNew fTemaDiplomskogRadaNew;
     List<DCTemaDiplomskogRada> teme;
 
-    public GUIControllerTemaNew(JFrame parent) {
-        this.parent = parent;
+    public GUIControllerTemaNew(Frame parent, GUIControllerMain controllerMain) {
+        super(controllerMain, parent);
         createObject();
         fTemaDiplomskogRadaNew = new FTemaDiplomskogRadaNew(parent, true);
         populateTableTeme();
@@ -100,13 +101,11 @@ public class GUIControllerTemaNew extends GeneralControllerNew implements GUILis
     }
 
     private void populateTableTeme() {
-        fTemaDiplomskogRadaNew.getjTableTeme().setModel(new TemaTableModel(teme)); 
+        fTemaDiplomskogRadaNew.getjTableTeme().setModel(new TemaTableModel(teme));
     }
-    
-    private void setColumnPredmeti(){
-        List<GeneralDObject> gdos = new ArrayList<>();
-        
-        SOFindAll(new DCPredmet(), gdos);
+
+    private void setColumnPredmeti() {
+        List<GeneralDObject> gdos = SOFindAll(new DCPredmet());
         List<DCPredmet> predmeti = new ArrayList<>();
         gdos.forEach((gdo) -> {
             predmeti.add((DCPredmet) gdo);
@@ -114,13 +113,13 @@ public class GUIControllerTemaNew extends GeneralControllerNew implements GUILis
         JComboBox<DCPredmet> comboBox = new JComboBox(new DefaultComboBoxModel(predmeti.toArray()));
         TableColumn columnProduct = fTemaDiplomskogRadaNew.getjTableTeme().getColumnModel().getColumn(2);
         columnProduct.setCellEditor(new DefaultCellEditor(comboBox));
-        
+
     }
 
     @Override
     public void add() {
         try {
-            ((TemaTableModel)fTemaDiplomskogRadaNew.getjTableTeme().getModel()).add();
+            ((TemaTableModel) fTemaDiplomskogRadaNew.getjTableTeme().getModel()).add();
         } catch (Exception ex) {
             fTemaDiplomskogRadaNew.setMessage("The last tema added is not filled out correctly.");
         }
@@ -129,7 +128,7 @@ public class GUIControllerTemaNew extends GeneralControllerNew implements GUILis
     @Override
     public void remove() {
         int row = fTemaDiplomskogRadaNew.getjTableTeme().getSelectedRow();
-        ((TemaTableModel)fTemaDiplomskogRadaNew.getjTableTeme().getModel()).remove(row);
+        ((TemaTableModel) fTemaDiplomskogRadaNew.getjTableTeme().getModel()).remove(row);
     }
 
     @Override
@@ -137,14 +136,14 @@ public class GUIControllerTemaNew extends GeneralControllerNew implements GUILis
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-
-
     @Override
     public List<GeneralDObject> getList() {
         return new ArrayList<>(teme);
     }
 
-
-    
+    @Override
+    public GUIControllerMain getConrollerMain() {
+        return controllerMain;
+    }
 
 }

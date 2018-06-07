@@ -5,6 +5,8 @@
  */
 package rs.ac.bg.fon.silab.gui.form;
 
+import rs.ac.bg.fion.silab.gui.general.GeneralGUINew;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import java.awt.Frame;
 import java.time.LocalDate;
 import java.time.ZoneId;

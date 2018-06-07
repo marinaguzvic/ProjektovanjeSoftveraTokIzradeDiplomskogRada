@@ -8,7 +8,7 @@ package rs.ac.bg.fon.silab.gui.form.listener.create;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import rs.ac.bg.fon.silab.gui.controller.GeneralControllerNew;
-import rs.ac.bg.fon.silab.gui.form.FormState;
+import rs.ac.bg.fion.silab.gui.general.FormState;
 
 /**
  *

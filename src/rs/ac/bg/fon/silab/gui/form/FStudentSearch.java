@@ -5,6 +5,8 @@
  */
 package rs.ac.bg.fon.silab.gui.form;
 
+import rs.ac.bg.fion.silab.gui.general.GeneralGUISearch;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;

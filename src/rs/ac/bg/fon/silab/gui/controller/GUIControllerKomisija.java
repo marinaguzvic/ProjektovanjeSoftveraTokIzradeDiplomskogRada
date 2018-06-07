@@ -16,11 +16,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
 import rs.ac.bg.fon.silab.form.components.table.model.KomisijaTableModel;
-import rs.ac.bg.fon.silab.form.components.table.model.TemaTableModel;
 import rs.ac.bg.fon.silab.gui.form.FKomisija;
-import rs.ac.bg.fon.silab.gui.form.FTemaDiplomskogRadaNew;
-import rs.ac.bg.fon.silab.gui.form.FormState;
-import rs.ac.bg.fon.silab.gui.form.GeneralGUI;
+import rs.ac.bg.fion.silab.gui.general.FormState;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import rs.ac.bg.fon.silab.gui.form.listener.create.CancelListener;
 import rs.ac.bg.fon.silab.gui.form.listener.create.SaveListener;
 import rs.ac.bg.fon.silab.gui.form.listener.diplomskirad.NastavnikTableModelListener;
@@ -29,8 +27,6 @@ import rs.ac.bg.fon.silab.gui.form.listener.tema.RemoveListener;
 import rs.ac.bg.fon.silab.jpa.example1.domain.DCClanKomisije;
 import rs.ac.bg.fon.silab.jpa.example1.domain.DCKomisija;
 import rs.ac.bg.fon.silab.jpa.example1.domain.DCNastavnik;
-import rs.ac.bg.fon.silab.jpa.example1.domain.DCPredmet;
-import rs.ac.bg.fon.silab.jpa.example1.domain.DCTemaDiplomskogRada;
 import rs.ac.bg.fon.silab.jpa.example1.domain.EUlogaClanaKomisije;
 import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
 import rs.ac.bg.fon.silab.session.Session;
@@ -46,8 +42,8 @@ public class GUIControllerKomisija extends GeneralControllerNew implements GUILi
     JComboBox<DCNastavnik> comboBoxNastavnici;
     List<DCNastavnik> nastavnici;
 
-    public GUIControllerKomisija(JFrame parent) {
-        this.parent = parent;
+    public GUIControllerKomisija(JFrame parent,GUIControllerMain controllerMain) {
+        super(controllerMain, parent);
         findAllNastavnici();
         createObject();
         fKomisija = new FKomisija(parent, true);
@@ -59,6 +55,10 @@ public class GUIControllerKomisija extends GeneralControllerNew implements GUILi
         fKomisija.setVisible(true);
 
     }
+
+
+    
+    
 
     @Override
     public void convertGraphicalIntoDomainObject() {
@@ -157,8 +157,7 @@ public class GUIControllerKomisija extends GeneralControllerNew implements GUILi
     }
 
     private void findAllNastavnici() {
-        List<GeneralDObject> gdos = new ArrayList<>();
-        SOFindAll(new DCNastavnik(), gdos);
+        List<GeneralDObject> gdos =  SOFindAll(new DCNastavnik());
         nastavnici = new ArrayList<>();
         gdos.forEach((gdo) -> {
             nastavnici.add((DCNastavnik) gdo);
@@ -200,6 +199,11 @@ public class GUIControllerKomisija extends GeneralControllerNew implements GUILi
         for (DCClanKomisije dCClanKomisije : komisija.getClanovi()) {
             comboBoxNastavnici.removeItem(dCClanKomisije.getNastavnik());
         }
+    }
+
+    @Override
+    public GUIControllerMain getConrollerMain() {
+        return controllerMain;
     }
 
 }

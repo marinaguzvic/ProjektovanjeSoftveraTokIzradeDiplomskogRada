@@ -11,7 +11,7 @@ import java.util.List;
 import rs.ac.bg.fon.silab.gui.controller.GUIControllerTemaNew;
 import rs.ac.bg.fon.silab.gui.controller.GUIListNew;
 import rs.ac.bg.fon.silab.gui.controller.GeneralControllerNew;
-import rs.ac.bg.fon.silab.gui.form.FormState;
+import rs.ac.bg.fion.silab.gui.general.FormState;
 import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
 
 /**

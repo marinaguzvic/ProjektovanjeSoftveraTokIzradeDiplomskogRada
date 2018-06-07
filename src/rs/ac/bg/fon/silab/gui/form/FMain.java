@@ -15,23 +15,16 @@ import javax.swing.JPanel;
  */
 public class FMain extends javax.swing.JFrame {
 
-    private static FMain instance;
 
     /**
      * Creates new form Fmain
      */
-    private FMain() {
+    public FMain() {
         initComponents();
         addPanelStatus();
         maximizeForm();
     }
 
-    public static FMain getInstance() {
-        if (instance == null) {
-            instance = new FMain();
-        }
-        return instance;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,11 +48,11 @@ public class FMain extends javax.swing.JFrame {
         jMenuTemaDiplomskogRada = new javax.swing.JMenu();
         jMenuItemTemaDiplomskogRadaNew = new javax.swing.JMenuItem();
         jMenuItemTemaDiplomskogRadaSearch = new javax.swing.JMenuItem();
-        jMenuConfiguration = new javax.swing.JMenu();
-        jMenuItemDatabase = new javax.swing.JMenuItem();
         jMenuAbout = new javax.swing.JMenu();
         jMenuAccount = new javax.swing.JMenu();
-        jMenuItemLogOut = new javax.swing.JMenuItem();
+        jMenuItemLogIn = new javax.swing.JMenuItem();
+        jMenuConnect = new javax.swing.JMenu();
+        jMenuItemConnect = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -128,22 +121,22 @@ public class FMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuTemaDiplomskogRada);
 
-        jMenuConfiguration.setText("Configuration");
-
-        jMenuItemDatabase.setText("Database");
-        jMenuConfiguration.add(jMenuItemDatabase);
-
-        jMenuBar1.add(jMenuConfiguration);
-
         jMenuAbout.setText("About");
         jMenuBar1.add(jMenuAbout);
 
         jMenuAccount.setText("Account");
 
-        jMenuItemLogOut.setText("Log out");
-        jMenuAccount.add(jMenuItemLogOut);
+        jMenuItemLogIn.setText(" Log in");
+        jMenuAccount.add(jMenuItemLogIn);
 
         jMenuBar1.add(jMenuAccount);
+
+        jMenuConnect.setText("Connect");
+
+        jMenuItemConnect.setText("Connect");
+        jMenuConnect.add(jMenuItemConnect);
+
+        jMenuBar1.add(jMenuConnect);
 
         setJMenuBar(jMenuBar1);
 
@@ -157,11 +150,11 @@ public class FMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuAbout;
     private javax.swing.JMenu jMenuAccount;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenu jMenuConfiguration;
+    private javax.swing.JMenu jMenuConnect;
     private javax.swing.JMenu jMenuDiplomskiRad;
-    private javax.swing.JMenuItem jMenuItemDatabase;
+    private javax.swing.JMenuItem jMenuItemConnect;
     private javax.swing.JMenuItem jMenuItemDiplomskiRad;
-    private javax.swing.JMenuItem jMenuItemLogOut;
+    private javax.swing.JMenuItem jMenuItemLogIn;
     private javax.swing.JMenuItem jMenuItemStudentNew;
     private javax.swing.JMenuItem jMenuItemStudentSearch;
     private javax.swing.JMenuItem jMenuItemTemaDiplomskogRadaNew;
@@ -200,9 +193,6 @@ public class FMain extends javax.swing.JFrame {
         return jMenuItemDiplomskiRad;
     }
 
-    public javax.swing.JMenuItem getjMenuItemLogOut() {
-        return jMenuItemLogOut;
-    }
 
     public javax.swing.JMenuItem getjMenuItemStudentNew() {
         return jMenuItemStudentNew;
@@ -218,6 +208,42 @@ public class FMain extends javax.swing.JFrame {
 
     public javax.swing.JMenuItem getjMenuItemTemaDiplomskogRadaSearch() {
         return jMenuItemTemaDiplomskogRadaSearch;
+    }
+
+    public javax.swing.JMenu getjMenuAbout() {
+        return jMenuAbout;
+    }
+
+    public javax.swing.JMenu getjMenuAccount() {
+        return jMenuAccount;
+    }
+
+    public javax.swing.JMenu getjMenuConnect() {
+        return jMenuConnect;
+    }
+
+    public javax.swing.JMenu getjMenuDiplomskiRad() {
+        return jMenuDiplomskiRad;
+    }
+
+    public javax.swing.JMenu getjMenuStudent() {
+        return jMenuStudent;
+    }
+
+    public javax.swing.JMenu getjMenuTemaDiplomskogRada() {
+        return jMenuTemaDiplomskogRada;
+    }
+
+    public javax.swing.JLabel getjLblUser() {
+        return jLblUser;
+    }
+
+    public javax.swing.JMenuItem getjMenuItemConnect() {
+        return jMenuItemConnect;
+    }
+
+    public javax.swing.JMenuItem getjMenuItemLogIn() {
+        return jMenuItemLogIn;
     }
     
     

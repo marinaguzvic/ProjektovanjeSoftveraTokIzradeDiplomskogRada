@@ -5,6 +5,7 @@
  */
 package rs.ac.bg.fon.silab.gui.controller;
 
+import java.awt.Frame;
 import java.time.Instant;
 import rs.ac.bg.fon.silab.gui.form.listener.diplomskirad.EnterKomisijaActionListener;
 import java.time.LocalDate;
@@ -14,9 +15,8 @@ import java.util.Date;
 import javax.swing.JFrame;
 import rs.ac.bg.fon.silab.form.components.table.model.KomisijaTableModel;
 import rs.ac.bg.fon.silab.gui.form.FDiplomskiRad;
-import rs.ac.bg.fon.silab.gui.form.FMain;
-import rs.ac.bg.fon.silab.gui.form.FormState;
-import rs.ac.bg.fon.silab.gui.form.GeneralGUI;
+import rs.ac.bg.fion.silab.gui.general.FormState;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import rs.ac.bg.fon.silab.gui.form.PKomisija;
 import rs.ac.bg.fon.silab.gui.form.POdbraniDiplomskiRad;
 import rs.ac.bg.fon.silab.gui.form.POdobravanjeDiplomskogRada;
@@ -41,8 +41,8 @@ public class GUIControllerDiplomskiRad extends GeneralControllerNew {
     private DCDiplomskiRad diplomskiRad;
     FDiplomskiRad fDiplomskiRad;
 
-    public GUIControllerDiplomskiRad(FMain parent) {
-        this.parent = parent;
+    public GUIControllerDiplomskiRad(Frame parent,GUIControllerMain controllerMain) {
+        super(controllerMain, parent);
         initNewForm();
     }
 
@@ -53,6 +53,13 @@ public class GUIControllerDiplomskiRad extends GeneralControllerNew {
         setListeners();
         fDiplomskiRad.setVisible(true);
     }
+
+    @Override
+    public GUIControllerMain getConrollerMain() {
+        return controllerMain;
+    }
+    
+    
 
     @Override
     public void convertGraphicalIntoDomainObject() {

@@ -23,7 +23,7 @@ public class EnterKomisijaActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        GUIControllerKomisija controllerKomisija = new GUIControllerKomisija(controllerDiplomskiRad.getfParent());
+        GUIControllerKomisija controllerKomisija = new GUIControllerKomisija(controllerDiplomskiRad.getfParent(),controllerDiplomskiRad.getConrollerMain());
     }
     
 }

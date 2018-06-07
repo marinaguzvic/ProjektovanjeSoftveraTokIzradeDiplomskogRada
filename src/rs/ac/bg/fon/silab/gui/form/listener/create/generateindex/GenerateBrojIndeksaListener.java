@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import rs.ac.bg.fon.silab.gui.controller.GUIControllerStudentNew;
 import rs.ac.bg.fon.silab.gui.controller.GeneralControllerNew;
-import rs.ac.bg.fon.silab.gui.form.FormState;
+import rs.ac.bg.fion.silab.gui.general.FormState;
 import rs.ac.bg.fon.silab.jpa.example1.domain.DCStudent;
 import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
 
@@ -31,7 +31,7 @@ public class GenerateBrojIndeksaListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                GeneralDObject gdo = gcsn.SOGenerateBrojIndeksa();
+                GeneralDObject gdo = gcsn.SOGenerateBrojIndeksa(gcsn.getGdo());
                 gcsn.setStudent(gdo);
                 gcsn.showMessage("Index number generated");
                 gcsn.convertDomainIntoGraphicalObject();

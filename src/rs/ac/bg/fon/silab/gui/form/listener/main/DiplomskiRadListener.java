@@ -28,7 +28,7 @@ public class DiplomskiRadListener implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        GUIControllerDiplomskiRad controllerDiplomskiRad = new GUIControllerDiplomskiRad((FMain) ggc.getfParent());
+        GUIControllerDiplomskiRad controllerDiplomskiRad = new GUIControllerDiplomskiRad((FMain) ggc.getfParent(),ggc.getConrollerMain());
     }
     
     

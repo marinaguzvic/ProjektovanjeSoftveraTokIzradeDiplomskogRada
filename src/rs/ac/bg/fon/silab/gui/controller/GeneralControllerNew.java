@@ -5,7 +5,8 @@
  */
 package rs.ac.bg.fon.silab.gui.controller;
 
-import rs.ac.bg.fon.silab.gui.form.GeneralGUINew;
+import java.awt.Frame;
+import rs.ac.bg.fion.silab.gui.general.GeneralGUINew;
 import rs.ac.bg.fon.silab.gui.form.listener.create.CancelListener;
 import rs.ac.bg.fon.silab.gui.form.listener.create.EditListener;
 import rs.ac.bg.fon.silab.gui.form.listener.create.SaveListener;
@@ -18,6 +19,10 @@ import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
  */
 public abstract class GeneralControllerNew extends GUIControllerDialog {
 
+    public GeneralControllerNew(GUIControllerMain controllerMain, Frame parent) {
+        super(controllerMain, parent);
+    }
+
     @Override
     public void setListeners() {
         GeneralGUINew form = (GeneralGUINew) getGeneralGUI();
@@ -29,5 +34,7 @@ public abstract class GeneralControllerNew extends GUIControllerDialog {
     }
 
     public abstract GeneralDObject getGdo();
+
+
 
 }
