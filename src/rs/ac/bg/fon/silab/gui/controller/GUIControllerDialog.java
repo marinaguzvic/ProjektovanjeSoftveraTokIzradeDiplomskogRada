@@ -9,6 +9,8 @@ import java.awt.Frame;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
 import rs.ac.bg.fion.silab.gui.general.FormState;
 import rs.ac.bg.fon.silab.jpa.example1.domain.DCKorisnik;
@@ -43,8 +45,11 @@ public abstract class GUIControllerDialog extends GeneralGUIController {
     }
 
     private Object proccessResponse(ResponseObject response) {
+        if (response == null) {
+            return null;
+        }
         if (response.getCode() == IStatus.OK) {
-            return  response.getData();
+            return response.getData();
         } else {
             showMessage(response.getMessage());
             return null;
@@ -54,13 +59,14 @@ public abstract class GUIControllerDialog extends GeneralGUIController {
     public void SOConnect(String address, int port) throws IOException {
         Socket socket = new Socket(address, port);
         Session.getInstance().setSocket(socket);
+        controllerMain.connect();
     }
 
     public void SODisconnect() throws Exception {
-        SOLogout();
-        Session.getInstance().getOutput().close();
-        Session.getInstance().getInput().close();
-        Session.getInstance().getSocket().close();
+        Session.getInstance().closeSocket();
+        Session.getInstance().setKorisnik(null);
+        controllerMain.disconnect();
+
     }
 
     public GeneralDObject SOUpdate(GeneralDObject gdo) {
@@ -85,8 +91,10 @@ public abstract class GUIControllerDialog extends GeneralGUIController {
         DCKorisnik korisnik = (DCKorisnik) proccessResponse(SOCall(IOperation.LOGIN, gdo));
         if (korisnik == null) {
             throw new Exception("Logovanje neuspesno");
+
         }
         Session.getInstance().setKorisnik(korisnik);
+        controllerMain.login();
     }
 
     protected ResponseObject SOCall(String SOName, GeneralDObject gdo) {
@@ -96,11 +104,19 @@ public abstract class GUIControllerDialog extends GeneralGUIController {
             request.setOperation(SOName);
             sendRequest(request);
             return recieveResponse();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showMessage(e.getMessage());
+
+        } catch (Exception ex) {
+            try {
+                SODisconnect();
+                showMessage(ex.getMessage());
+                return null;
+            } catch (Exception e) {
+                showMessage(e.getMessage());
+                return null;
+            }
+
         }
-        return null;
+
     }
 
     @Override
@@ -126,43 +142,32 @@ public abstract class GUIControllerDialog extends GeneralGUIController {
 
     public abstract void prepareFormFor(FormState formState);
 
-    private void sendRequest(RequestObject request) throws IOException {
+    private void sendRequest(RequestObject request) throws Exception {
         try {
             Session.getInstance().getOutput().writeObject(request);
             Session.getInstance().getOutput().flush();
         } catch (Exception ex) {
-            showMessage(ex.getMessage());
-            logout();
+            ex.printStackTrace();
+            throw new Exception("Error sending request to server, disconnecting");
         }
 
     }
 
-    private ResponseObject recieveResponse() throws IOException {
+    private ResponseObject recieveResponse() throws Exception {
         try {
             return (ResponseObject) Session.getInstance().getInput().readObject();
         } catch (Exception ex) {
-            showMessage(ex.getMessage());
-            logout();
-            return null;
+            ex.printStackTrace();
+            throw new Exception("Error reading from server, disconnecting");
         }
     }
 
-    public void logout() throws IOException {
+    public void SOLogout() {
         if (Session.getInstance().getKorisnik() != null) {
-            SOLogout();
-            controllerMain.logout();
+            GeneralDObject korisnik = (GeneralDObject) proccessResponse(SOCall(IOperation.LOGOUT, Session.getInstance().getKorisnik()));
+            Session.getInstance().setKorisnik(null);
         }
-    }
-
-    public void login(DCKorisnik gdo) throws Exception {
-        SOLogin(gdo);
-        controllerMain.login();
-    }
-
-    public void SOLogout() throws IOException {
-        GeneralDObject korisnik = (GeneralDObject) proccessResponse(SOCall(IOperation.LOGOUT, Session.getInstance().getKorisnik()));
-        Session.getInstance().setKorisnik(null);
-        Session.getInstance().closeSocket();
+        controllerMain.logout();
     }
 
 }

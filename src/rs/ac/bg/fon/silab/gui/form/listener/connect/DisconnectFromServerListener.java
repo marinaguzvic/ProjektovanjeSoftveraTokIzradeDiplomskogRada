@@ -26,6 +26,7 @@ public class DisconnectFromServerListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
+            controllerDialog.SOLogout();
             controllerDialog.SODisconnect();
             controllerDialog.closeForm();
         } catch (Exception ex) {

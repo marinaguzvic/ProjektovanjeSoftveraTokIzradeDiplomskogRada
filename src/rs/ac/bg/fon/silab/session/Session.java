@@ -18,21 +18,22 @@ import rs.ac.bg.fon.silab.jpa.example1.domain.DCKorisnik;
  * @author user
  */
 public class Session {
+
     private static Session instance;
     private final Map<String, Object> map;
     private Socket socket;
     private ObjectInputStream input;
     private ObjectOutputStream output;
     private DCKorisnik korisnik;
-    
-    
-    
+
     private Session() {
         map = new HashMap<>();
     }
-    
-    public static Session getInstance(){
-        if (instance == null) instance = new Session();
+
+    public static Session getInstance() {
+        if (instance == null) {
+            instance = new Session();
+        }
         return instance;
     }
 
@@ -50,8 +51,10 @@ public class Session {
 
     public ObjectInputStream getInput() throws Exception {
         try {
-            if(input == null )input = new ObjectInputStream(socket.getInputStream());
-            
+            if (input == null) {
+                input = new ObjectInputStream(socket.getInputStream());
+            }
+
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new Exception("Error opening input stream");
@@ -59,10 +62,11 @@ public class Session {
         return input;
     }
 
-
     public ObjectOutputStream getOutput() throws Exception {
         try {
-           if(output  == null) output = new ObjectOutputStream(socket.getOutputStream());
+            if (output == null) {
+                output = new ObjectOutputStream(socket.getOutputStream());
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
             throw new Exception("Error opening output stream");
@@ -79,14 +83,13 @@ public class Session {
     }
 
     public void closeSocket() throws IOException {
-        input.close();
-        input = null;
-        output.close();
-        output = null;
-        socket.close();
-        socket = null;
+        try {
+            socket.close();
+            socket = null;
+            output = null;
+            input = null;
+        } catch (Exception ex) {
+        }
     }
 
-
-                   
 }

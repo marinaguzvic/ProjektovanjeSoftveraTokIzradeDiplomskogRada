@@ -33,6 +33,7 @@ public class GUIControllerMain extends GeneralGUIController{
     public GUIControllerMain() {
         fMain = new FMain();
         setListeners();
+        prepareFormFor(FormState.DISCONNECTED);
         fMain.setVisible(true);
         
     }
@@ -138,9 +139,9 @@ public class GUIControllerMain extends GeneralGUIController{
     public FormState isConnected() {
         Socket socket = Session.getInstance().getSocket();
         if(socket == null){
-            return FormState.LOGGED_OUT;
+            return FormState.DISCONNECTED;
         }else{
-            return FormState.LOGGED_IN;
+            return FormState.CONNECTED;
         }
     }
 

@@ -25,10 +25,10 @@ public class LoginListener implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         try {
             controller.convertGraphicalIntoDomainObject();
-            controller.login((DCKorisnik) controller.getGdo());
+            controller.SOLogin((DCKorisnik) controller.getGdo());
             controller.closeForm();
         } catch (Exception ex) {
-            
+            controller.closeForm();
         }
     }
     

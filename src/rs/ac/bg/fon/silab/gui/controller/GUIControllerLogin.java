@@ -66,7 +66,7 @@ public class GUIControllerLogin extends GeneralControllerNew {
     @Override
     public void convertDomainIntoGraphicalObject() {
         fLogin.getjTxtUsername().setText(korisnik.getUsername());
-        fLogin.getjPassword().setText(Arrays.toString(korisnik.getPassword()));
+        fLogin.getjPassword().setText(new String(korisnik.getPassword()));
     }
 
     @Override
