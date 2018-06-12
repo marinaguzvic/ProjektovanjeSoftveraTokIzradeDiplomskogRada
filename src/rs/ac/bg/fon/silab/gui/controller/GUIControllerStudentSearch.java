@@ -47,6 +47,22 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
         }
 
     }
+    
+    public GUIControllerStudentSearch(Frame parent, GUIControllerMain controllerMain, FormState formState) throws Exception {
+        super(controllerMain, parent);
+        try {
+            createObject();
+            fStudentSearch = new FStudentSearch(parent, true);
+            setListeners();
+            prepareFormFor(formState);
+            convertDomainIntoGraphicalObject();
+            ((FStudentSearch) fStudentSearch).setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new Exception("Couldn't opet form, couldn't load data!");
+        }
+
+    }
 
     public void populateTable() {
 
@@ -97,24 +113,25 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
     @Override
     public void setListeners() {
         super.setListeners();
-        FStudentSearch form = (FStudentSearch) fStudentSearch;
-        form.getBasicSearchPanel().getjTxtIme().getDocument().addDocumentListener(new FilterListener(this));
-        form.getBasicSearchPanel().getjTxtPrezime().getDocument().addDocumentListener(new FilterListener(this));
-        form.getjTxtBrojIndeksa().getDocument().addDocumentListener(new FilterListener(this));
-        form.getAdvancedSearchPanel().getjTxtJMBG().getDocument().addDocumentListener(new FilterListener(this));
+        fStudentSearch.getBasicSearchPanel().getjTxtIme().getDocument().addDocumentListener(new FilterListener(this));
+        fStudentSearch.getBasicSearchPanel().getjTxtPrezime().getDocument().addDocumentListener(new FilterListener(this));
+        fStudentSearch.getjTxtBrojIndeksa().getDocument().addDocumentListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjTxtJMBG().getDocument().addDocumentListener(new FilterListener(this));
 
-        form.getAdvancedSearchPanel().getjCheckBox1().addChangeListener(new FilterListener(this));
-        form.getAdvancedSearchPanel().getjCheckBox2().addChangeListener(new FilterListener(this));
-        form.getAdvancedSearchPanel().getjCheckBox3().addChangeListener(new FilterListener(this));
-        form.getAdvancedSearchPanel().getjCheckBox4().addChangeListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjCheckBox1().addChangeListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjCheckBox2().addChangeListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjCheckBox3().addChangeListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjCheckBox4().addChangeListener(new FilterListener(this));
 
-        form.getAdvancedSearchPanel().getjRadioButtonBudzetDa().addActionListener(new FilterListener(this));
-        form.getAdvancedSearchPanel().getjRadioButtonBudzetNe().addActionListener(new FilterListener(this));
-        form.getAdvancedSearchPanel().getjRadioButtonBudzetSvi().addActionListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjRadioButtonBudzetDa().addActionListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjRadioButtonBudzetNe().addActionListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjRadioButtonBudzetSvi().addActionListener(new FilterListener(this));
 
-        form.getAdvancedSearchPanel().getjRadioButtonPrviPutUpisaoDa().addActionListener(new FilterListener(this));
-        form.getAdvancedSearchPanel().getjRadioButtonPrviPutUpisaoNe().addActionListener(new FilterListener(this));
-        form.getAdvancedSearchPanel().getjRadioButtonPrviPutUpisaoSvi().addActionListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjRadioButtonPrviPutUpisaoDa().addActionListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjRadioButtonPrviPutUpisaoNe().addActionListener(new FilterListener(this));
+        fStudentSearch.getAdvancedSearchPanel().getjRadioButtonPrviPutUpisaoSvi().addActionListener(new FilterListener(this));
+        
+        
     }
 
     @Override
@@ -143,6 +160,11 @@ public class GUIControllerStudentSearch extends GeneralControllerSearch {
 
     @Override
     public void prepareFormFor(FormState formState) {
+        switch(formState){
+            case VIEW:
+                fStudentSearch.getSelect().setVisible(false);
+                break;
+        }
     }
 
     private void convertListToStudents(List<GeneralDObject> list) {

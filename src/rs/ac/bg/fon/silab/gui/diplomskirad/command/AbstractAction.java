@@ -5,14 +5,13 @@
  */
 package rs.ac.bg.fon.silab.gui.diplomskirad.command;
 
-import rs.ac.bg.fon.silab.gui.controller.GUIControllerDiplomskiRad;
-import rs.ac.bg.fon.silab.gui.form.FDiplomskiRad;
+import rs.ac.bg.fon.silab.gui.controller.GUIControllerDiplomskiRadGeneral;
 
 /**
  *
  * @author MARINA
  */
 public abstract class AbstractAction {
-    public abstract void execute(GUIControllerDiplomskiRad controller);
+    public abstract void execute(GUIControllerDiplomskiRadGeneral controller);
     
 }

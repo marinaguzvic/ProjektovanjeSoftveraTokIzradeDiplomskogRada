@@ -146,6 +146,7 @@ public abstract class GUIControllerDialog extends GeneralGUIController {
         try {
             Session.getInstance().getOutput().writeObject(request);
             Session.getInstance().getOutput().flush();
+            Session.getInstance().getOutput().reset();
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Error sending request to server, disconnecting");

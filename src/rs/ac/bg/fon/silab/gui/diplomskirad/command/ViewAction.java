@@ -6,6 +6,7 @@
 package rs.ac.bg.fon.silab.gui.diplomskirad.command;
 
 import rs.ac.bg.fon.silab.gui.controller.GUIControllerDiplomskiRad;
+import rs.ac.bg.fon.silab.gui.controller.GUIControllerDiplomskiRadGeneral;
 
 /**
  *
@@ -16,7 +17,7 @@ public class ViewAction extends AbstractAction {
 
 
     @Override
-    public void execute(GUIControllerDiplomskiRad controller) {
+    public void execute(GUIControllerDiplomskiRadGeneral controller) {
         controller.view();
     }
 

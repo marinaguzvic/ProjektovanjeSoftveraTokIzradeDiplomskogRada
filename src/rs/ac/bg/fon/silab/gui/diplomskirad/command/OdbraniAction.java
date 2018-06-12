@@ -9,6 +9,7 @@ import java.awt.Frame;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import rs.ac.bg.fon.silab.gui.controller.GUIControllerDiplomskiRad;
+import rs.ac.bg.fon.silab.gui.controller.GUIControllerDiplomskiRadGeneral;
 import rs.ac.bg.fon.silab.gui.form.FDiplomskiRad;
 import rs.ac.bg.fon.silab.gui.form.PKomisija;
 import rs.ac.bg.fon.silab.gui.form.POdbraniDiplomskiRad;
@@ -28,7 +29,7 @@ public class OdbraniAction extends AbstractAction {
 
 
     @Override
-    public void execute(GUIControllerDiplomskiRad controller) {
+    public void execute(GUIControllerDiplomskiRadGeneral controller) {
         controller.odbrani();
     }
     

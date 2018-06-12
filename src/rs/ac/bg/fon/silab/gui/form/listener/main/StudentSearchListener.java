@@ -8,8 +8,10 @@ package rs.ac.bg.fon.silab.gui.form.listener.main;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import rs.ac.bg.fion.silab.gui.general.FormState;
 import rs.ac.bg.fon.silab.gui.controller.GUIControllerStudentSearch;
 import rs.ac.bg.fon.silab.gui.controller.GUIControllerDialog;
+import rs.ac.bg.fon.silab.gui.controller.GUIControllerMain;
 import rs.ac.bg.fon.silab.gui.controller.GeneralGUIController;
 
 /**
@@ -31,7 +33,8 @@ public class StudentSearchListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
 
             try {
-                GUIControllerDialog gcd = new GUIControllerStudentSearch(ggc.getfParent(),ggc.getConrollerMain());
+                FormState formState = ggc instanceof GUIControllerMain ? FormState.VIEW:FormState.SELECT;
+                GUIControllerDialog gcd = new GUIControllerStudentSearch(ggc.getfParent(),ggc.getConrollerMain(), formState);
                 
             } catch (Exception ex) {
                 //Obraditi gresku, prikazati poruku

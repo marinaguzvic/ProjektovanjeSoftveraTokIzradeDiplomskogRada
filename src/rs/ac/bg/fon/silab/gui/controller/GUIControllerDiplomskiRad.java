@@ -36,7 +36,7 @@ import rs.ac.bg.fon.silab.session.Session;
  *
  * @author MARINA
  */
-public class GUIControllerDiplomskiRad extends GeneralControllerNew {
+public class GUIControllerDiplomskiRad extends GeneralControllerNew implements GUIControllerDiplomskiRadGeneral {
 
     private DCDiplomskiRad diplomskiRad;
     FDiplomskiRad fDiplomskiRad;
@@ -113,7 +113,6 @@ public class GUIControllerDiplomskiRad extends GeneralControllerNew {
 
     @Override
     public void setListeners() {
-        
         fDiplomskiRad.getjBtnSearchStudent().addActionListener(new StudentSearchListener(this));
         fDiplomskiRad.addWindowListener(new DiplomskiRadWindowListener(this));
     }
@@ -137,6 +136,11 @@ public class GUIControllerDiplomskiRad extends GeneralControllerNew {
                 fDiplomskiRad.getSave().setVisible(false);
                 fDiplomskiRad.getEdit().setVisible(false);
                 break;
+            case VIEW:
+                fDiplomskiRad.getUpdate().setVisible(false);
+                fDiplomskiRad.getSave().setVisible(false);
+                fDiplomskiRad.getEdit().setVisible(false);
+                break;
         }
     }
 
@@ -145,6 +149,7 @@ public class GUIControllerDiplomskiRad extends GeneralControllerNew {
         return fDiplomskiRad;
     }
 
+    @Override
     public void odbrani() {
         diplomskiRad.setStatus(EStatus.ODBRANJEN);
         PKomisija komisija = new PKomisija();
@@ -155,6 +160,7 @@ public class GUIControllerDiplomskiRad extends GeneralControllerNew {
         prepareFormFor(FormState.EDIT);
     }
 
+    @Override
     public void prijavi() {
 
         diplomskiRad.setDatumPrijave(LocalDate.now());
@@ -166,6 +172,7 @@ public class GUIControllerDiplomskiRad extends GeneralControllerNew {
         prepareFormFor(FormState.INSERT);
     }
 
+    @Override
     public void odobri() {
         diplomskiRad.setDatumKadJeOdobren(LocalDate.now());
         diplomskiRad.setStatus(EStatus.ODOBREN);
@@ -181,9 +188,11 @@ public class GUIControllerDiplomskiRad extends GeneralControllerNew {
 
 
 
+    @Override
     public void view() {
         fDiplomskiRad.odbrani(new PPrijavaDiplomskogRada(), new POdobravanjeDiplomskogRada(), new POdbraniDiplomskiRad(), new PKomisija());
         fDiplomskiRad.greyAllFields();
+        prepareFormFor(FormState.VIEW);
     }
 
     @Override
@@ -201,6 +210,7 @@ public class GUIControllerDiplomskiRad extends GeneralControllerNew {
         fDiplomskiRad.close();
     }
 
+    @Override
     public DCDiplomskiRad getDiplomskiRad() {
         return diplomskiRad;
     }
@@ -214,6 +224,7 @@ public class GUIControllerDiplomskiRad extends GeneralControllerNew {
         Session.getInstance().getMap().clear();
     }
 
+    @Override
     public void setDiplomskiRad(DCDiplomskiRad diplomskiRad) {
         this.diplomskiRad = diplomskiRad;
     }

@@ -6,12 +6,7 @@
 package rs.ac.bg.fon.silab.gui.diplomskirad.command;
 
 
-import rs.ac.bg.fon.silab.gui.controller.GUIControllerDiplomskiRad;
-import rs.ac.bg.fon.silab.gui.form.FDiplomskiRad;
-import rs.ac.bg.fon.silab.gui.form.PKomisija;
-import rs.ac.bg.fon.silab.gui.form.POdobravanjeDiplomskogRada;
-import rs.ac.bg.fon.silab.gui.form.PPrijavaDiplomskogRada;
-import rs.ac.bg.fon.silab.jpa.example1.domain.EStatus;
+import rs.ac.bg.fon.silab.gui.controller.GUIControllerDiplomskiRadGeneral;
 
 
 /**
@@ -25,7 +20,7 @@ public class OdobriAction extends AbstractAction {
 
 
     @Override
-    public void execute(GUIControllerDiplomskiRad controller) {
+    public void execute(GUIControllerDiplomskiRadGeneral controller) {
         controller.odobri();
                 
     }

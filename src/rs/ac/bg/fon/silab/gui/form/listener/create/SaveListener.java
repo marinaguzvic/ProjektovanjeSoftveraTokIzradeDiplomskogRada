@@ -7,9 +7,7 @@ package rs.ac.bg.fon.silab.gui.form.listener.create;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import rs.ac.bg.fon.silab.gui.controller.GUIControllerDialog;
 import rs.ac.bg.fon.silab.gui.controller.GeneralControllerNew;
-import rs.ac.bg.fion.silab.gui.general.FormState;
 
 /**
  *
@@ -28,6 +26,5 @@ public class SaveListener implements ActionListener {
             ggc.convertGraphicalIntoDomainObject();
             ggc.SOSave(ggc.getGdo());
             ggc.emptyGraphicalObject();
-            ggc.prepareFormFor(FormState.INSERT);
         }
 }

@@ -45,6 +45,8 @@ public class FTemaDiplomskogRadaSearch extends javax.swing.JDialog implements Ge
         jCheckBoxBasicSearch = new javax.swing.JCheckBox();
         jTxtID = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jBtnAddNew = new javax.swing.JButton();
+        jBtnRefresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableTeme = new javax.swing.JTable();
 
@@ -58,6 +60,10 @@ public class FTemaDiplomskogRadaSearch extends javax.swing.JDialog implements Ge
 
         jLabel1.setText("ID:");
 
+        jBtnAddNew.setText("Add new ");
+
+        jBtnRefresh.setText("Refesh");
+
         javax.swing.GroupLayout jPanelIDLayout = new javax.swing.GroupLayout(jPanelID);
         jPanelID.setLayout(jPanelIDLayout);
         jPanelIDLayout.setHorizontalGroup(
@@ -66,11 +72,14 @@ public class FTemaDiplomskogRadaSearch extends javax.swing.JDialog implements Ge
                 .addContainerGap()
                 .addGroup(jPanelIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelIDLayout.createSequentialGroup()
-                        .addGap(0, 477, Short.MAX_VALUE)
+                        .addComponent(jBtnAddNew, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                         .addComponent(jCheckBoxAdvancedSearch)
                         .addGap(18, 18, 18)
                         .addComponent(jCheckBoxBasicSearch))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelIDLayout.createSequentialGroup()
+                    .addGroup(jPanelIDLayout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTxtID)))
@@ -84,10 +93,13 @@ public class FTemaDiplomskogRadaSearch extends javax.swing.JDialog implements Ge
                     .addComponent(jLabel1)
                     .addComponent(jTxtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBoxAdvancedSearch)
-                    .addComponent(jCheckBoxBasicSearch))
-                .addGap(25, 25, 25))
+                .addGroup(jPanelIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jCheckBoxAdvancedSearch)
+                        .addComponent(jCheckBoxBasicSearch))
+                    .addComponent(jBtnAddNew)
+                    .addComponent(jBtnRefresh))
+                .addGap(19, 19, 19))
         );
 
         jPanelNorth.add(jPanelID);
@@ -114,6 +126,8 @@ public class FTemaDiplomskogRadaSearch extends javax.swing.JDialog implements Ge
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnAddNew;
+    private javax.swing.JButton jBtnRefresh;
     private javax.swing.JCheckBox jCheckBoxAdvancedSearch;
     private javax.swing.JCheckBox jCheckBoxBasicSearch;
     private javax.swing.JLabel jLabel1;
@@ -248,4 +262,16 @@ public class FTemaDiplomskogRadaSearch extends javax.swing.JDialog implements Ge
         basicSearchPanel.setVisible(false);
         advancedSearchPanel.setVisible(false);
     }
+
+    public javax.swing.JButton getjBtnAddNew() {
+        return jBtnAddNew;
+    }
+
+    public javax.swing.JButton getjBtnRefresh() {
+        return jBtnRefresh;
+    }
+    
+    
+    
+    
 }

@@ -13,6 +13,8 @@ import rs.ac.bg.fon.silab.form.components.table.model.TemaSearchTableModel;
 import rs.ac.bg.fon.silab.gui.form.FTemaDiplomskogRadaSearch;
 import rs.ac.bg.fion.silab.gui.general.FormState;
 import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
+import rs.ac.bg.fon.silab.gui.form.listener.main.TemaNewListener;
+import rs.ac.bg.fon.silab.gui.form.listener.refresh.RefreshListener;
 import rs.ac.bg.fon.silab.gui.form.listener.search.ComboBoxFilter;
 import rs.ac.bg.fon.silab.gui.form.listener.search.FilterListener;
 import rs.ac.bg.fon.silab.gui.form.listener.search.TextFilter;
@@ -73,6 +75,9 @@ public class GUIControllerTemaSearch extends GeneralControllerSearch {
         fTemaDiplomskogRadaSearch.getBasicSearchPanel().getjTxtNazivTeme().getDocument().addDocumentListener(new FilterListener(this));
         fTemaDiplomskogRadaSearch.getAdvancedSearchPanel().getjComboBoxPredmet().addActionListener(new FilterListener(this));
         fTemaDiplomskogRadaSearch.getAdvancedSearchPanel().getjTxtOpis().getDocument().addDocumentListener(new FilterListener(this));
+        
+        fTemaDiplomskogRadaSearch.getjBtnAddNew().addActionListener(new TemaNewListener(this));
+        fTemaDiplomskogRadaSearch.getjBtnRefresh().addActionListener(new RefreshListener(this));
     }
 
     @Override

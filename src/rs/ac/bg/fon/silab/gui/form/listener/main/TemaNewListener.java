@@ -26,6 +26,7 @@ public class TemaNewListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         GUIControllerTemaNew controllerTemaNew = new GUIControllerTemaNew(ggc.getfParent(),ggc.getConrollerMain());
+
     }
     
 }

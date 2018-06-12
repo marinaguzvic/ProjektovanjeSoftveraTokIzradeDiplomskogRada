@@ -21,10 +21,11 @@ import javax.swing.JTextField;
  *
  * @author MARINA
  */
-public class FStudentNew extends javax.swing.JDialog implements GeneralGUI,GeneralGUINew{
+public class FStudentNew extends javax.swing.JDialog implements GeneralGUI, GeneralGUINew {
 
     /**
      * Creates new form FStudentNew
+     *
      * @param parent
      * @param modal
      */
@@ -39,10 +40,36 @@ public class FStudentNew extends javax.swing.JDialog implements GeneralGUI,Gener
     private void setButtons() {
         jPanelButtons = new PButtonsNew();
         jPanelButtons.setVisible(true);
-        this.add(jPanelButtons,BoxLayout.Y_AXIS);
+        this.add(jPanelButtons, BoxLayout.Y_AXIS);
     }
 
+    public void setPrijava(PPrijavaDiplomskogRada panelPrijava) {
+        jPanelPrijava = panelPrijava;
+        jPanelPrijava.setVisible(true);
+        this.add(jPanelPrijava, BoxLayout.Y_AXIS);
+        pack();
+    }
 
+    public void setOdobravanje(POdobravanjeDiplomskogRada panelOdobravanje) {
+        jPanelOdobravanje = panelOdobravanje;
+        jPanelOdobravanje.setVisible(true);
+        this.add(jPanelOdobravanje, BoxLayout.Y_AXIS);
+        pack();
+    }
+
+    public void setOdbrana(POdbraniDiplomskiRad panelOdbrani) {
+        jPanelOdbrani = panelOdbrani;
+        jPanelOdbrani.setVisible(true);
+        this.add(jPanelOdbrani, BoxLayout.Y_AXIS);
+        pack();
+    }
+
+    public void setKomisija(PKomisija panelKomisija) {
+        jPanelKomisija = panelKomisija;
+        jPanelKomisija.setVisible(true);
+        this.add(jPanelKomisija, BoxLayout.Y_AXIS);
+        pack();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -197,6 +224,10 @@ public class FStudentNew extends javax.swing.JDialog implements GeneralGUI,Gener
     private javax.swing.JTextField jTxtPrezime;
     // End of variables declaration//GEN-END:variables
     private PButtonsNew jPanelButtons;
+    private PPrijavaDiplomskogRada jPanelPrijava;
+    private POdobravanjeDiplomskogRada jPanelOdobravanje;
+    private POdbraniDiplomskiRad jPanelOdbrani;
+    private PKomisija jPanelKomisija;
 
     public String getBrojIndeksa() {
         return jTxtBrojIndeksa.getText().trim();
@@ -219,7 +250,7 @@ public class FStudentNew extends javax.swing.JDialog implements GeneralGUI,Gener
     }
 
     public int getGodinaStudija() {
-        return (Integer)jSpinnerGodinaStudija.getValue();
+        return (Integer) jSpinnerGodinaStudija.getValue();
     }
 
     public LocalDate getDatumRodjenja() {
@@ -227,10 +258,8 @@ public class FStudentNew extends javax.swing.JDialog implements GeneralGUI,Gener
     }
 
     public boolean getPrviPutUpisao() {
-        return jCheckBoxPrviPutUpisao.isSelected();              
+        return jCheckBoxPrviPutUpisao.isSelected();
     }
-
-
 
     public void setBrojIndeksa(String brojIndeksa) {
         jTxtBrojIndeksa.setText(brojIndeksa);
@@ -257,35 +286,34 @@ public class FStudentNew extends javax.swing.JDialog implements GeneralGUI,Gener
     }
 
     public void setDatumRodjenja(LocalDate datumRodjenja) {
-        jDateRodjenja.setDate(new Date(datumRodjenja.toEpochDay()));
+        jDateRodjenja.setDate( Date.from(datumRodjenja.atStartOfDay(ZoneId.systemDefault()).toInstant()));
     }
 
     public void setPrviPutUpisao(boolean prviPutUpisao) {
         jCheckBoxPrviPutUpisao.setSelected(prviPutUpisao);
     }
 
-    
     @Override
-    public JButton getSave(){
+    public JButton getSave() {
         return jPanelButtons.getjBtnSave();
     }
-    
+
     @Override
-    public JButton getUpdate(){
+    public JButton getUpdate() {
         return jPanelButtons.getjBtnUpdate();
     }
-    
+
     @Override
-    public JButton getEdit(){
+    public JButton getEdit() {
         return jPanelButtons.getJbtnEdit();
     }
-    
+
     @Override
-    public JButton getCancel(){
+    public JButton getCancel() {
         return jPanelButtons.getjBtnCancel();
     }
-    
-    public JButton getGenerisiBrojIndeksa(){
+
+    public JButton getGenerisiBrojIndeksa() {
         return jBtnGenerisiBrojIndeksa;
     }
 
@@ -339,6 +367,5 @@ public class FStudentNew extends javax.swing.JDialog implements GeneralGUI,Gener
         int year = Calendar.getInstance().get(Calendar.YEAR) - 1919;
         jDateRodjenja.setDate(new Date(year, 0, 1));
     }
-
 
 }

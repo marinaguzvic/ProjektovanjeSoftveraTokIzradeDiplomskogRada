@@ -10,9 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import rs.ac.bg.fon.silab.gui.controller.GUIControllerStudentNew;
-import rs.ac.bg.fon.silab.gui.controller.GeneralControllerNew;
 import rs.ac.bg.fion.silab.gui.general.FormState;
-import rs.ac.bg.fon.silab.jpa.example1.domain.DCStudent;
 import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
 
 /**

@@ -7,6 +7,7 @@ package rs.ac.bg.fon.silab.gui.form.listener.window;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import rs.ac.bg.fion.silab.gui.general.FormState;
 import rs.ac.bg.fon.silab.gui.controller.GUIControllerDiplomskiRad;
 import rs.ac.bg.fon.silab.gui.diplomskirad.command.AbstractAction;
 import rs.ac.bg.fon.silab.gui.diplomskirad.command.ActionFactory;
@@ -43,6 +44,7 @@ public class DiplomskiRadWindowListener extends WindowAdapter {
             }
             action.execute(controllerDiplomskiRad);
             executed = true;
+
         }
         controllerDiplomskiRad.convertDomainIntoGraphicalObject();
 

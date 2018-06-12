@@ -8,6 +8,7 @@ package rs.ac.bg.fon.silab.gui.form.listener.connect;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import rs.ac.bg.fion.silab.gui.controller.general.ConfigController;
 import rs.ac.bg.fon.silab.gui.controller.GUIControllerConnect;
 import rs.ac.bg.fon.silab.gui.form.FConnect;
 
@@ -28,10 +29,11 @@ public class ConnectToServerListener implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         try {
             controllerDialog.SOConnect(((FConnect)controllerDialog.getGeneralGUI()).getjTxtAddress().getText().trim(), Integer.parseInt(((FConnect)controllerDialog.getGeneralGUI()).getjTxtPort().getText().trim()));
+            ((ConfigController)controllerDialog).createConfigFile();
             controllerDialog.closeForm();
         } catch (IOException ex) {
             ex.printStackTrace();
-            controllerDialog.showMessage("Connect unsuccesful");
+            controllerDialog.showMessage("Connect to server unsuccesful: " + ex.getMessage());
         }
     }
     

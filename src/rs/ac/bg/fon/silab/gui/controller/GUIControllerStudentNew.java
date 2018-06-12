@@ -6,12 +6,26 @@
 package rs.ac.bg.fon.silab.gui.controller;
 
 import java.awt.Frame;
+import java.util.Date;
 import javax.swing.JFrame;
 import rs.ac.bg.fon.silab.constants.Constants;
 import rs.ac.bg.fon.silab.gui.form.FStudentNew;
 import rs.ac.bg.fion.silab.gui.general.FormState;
 import rs.ac.bg.fion.silab.gui.general.GeneralGUI;
+import rs.ac.bg.fon.silab.form.components.table.model.KomisijaTableModel;
+import rs.ac.bg.fon.silab.gui.controller.GUIControllerDiplomskiRadGeneral;
+import rs.ac.bg.fon.silab.gui.controller.GUIControllerMain;
+import rs.ac.bg.fon.silab.gui.controller.GUIControllerStudentSearch;
+import rs.ac.bg.fon.silab.gui.controller.GeneralControllerNew;
+import rs.ac.bg.fon.silab.gui.diplomskirad.command.AbstractAction;
+import rs.ac.bg.fon.silab.gui.diplomskirad.command.ActionFactory;
+import rs.ac.bg.fon.silab.gui.form.PKomisija;
+import rs.ac.bg.fon.silab.gui.form.POdbraniDiplomskiRad;
+import rs.ac.bg.fon.silab.gui.form.POdobravanjeDiplomskogRada;
+import rs.ac.bg.fon.silab.gui.form.PPrijavaDiplomskogRada;
 import rs.ac.bg.fon.silab.gui.form.listener.create.generateindex.GenerateBrojIndeksaListener;
+import rs.ac.bg.fon.silab.jpa.example1.domain.DCClanKomisije;
+import rs.ac.bg.fon.silab.jpa.example1.domain.DCDiplomskiRad;
 import rs.ac.bg.fon.silab.jpa.example1.domain.DCStudent;
 import rs.ac.bg.fon.silab.jpa.example1.domain.GeneralDObject;
 import transfer.util.IOperation;
@@ -20,9 +34,10 @@ import transfer.util.IOperation;
  *
  * @author MARINA
  */
-public class GUIControllerStudentNew extends GeneralControllerNew {
+public class GUIControllerStudentNew extends GeneralControllerNew implements GUIControllerDiplomskiRadGeneral {
 
     DCStudent student;
+    DCDiplomskiRad diplomskiRad;
     FStudentNew fStudentNew;
     GUIControllerStudentSearch controllerStudentSearch;
 
@@ -45,6 +60,7 @@ public class GUIControllerStudentNew extends GeneralControllerNew {
         convertDomainIntoGraphicalObject();
         setListeners();
         prepareFormFor(FormState.VIEW);
+        populateDiplomskiRad();
         fStudentNew.setVisible(true);
     }
 
@@ -165,4 +181,79 @@ public class GUIControllerStudentNew extends GeneralControllerNew {
     public GUIControllerMain getConrollerMain() {
         return controllerMain;
     }
+
+    private void populateDiplomskiRad() {
+        diplomskiRad = (DCDiplomskiRad) SOFindByID(new DCDiplomskiRad(student));
+        AbstractAction action = null;
+        action = ActionFactory.createAction(diplomskiRad);
+        if(action != null)action.execute(this);
+    }
+
+    @Override
+    public DCDiplomskiRad getDiplomskiRad() {
+        return diplomskiRad;
+    }
+
+    @Override
+    public void odbrani() {
+        fStudentNew.setPrijava(initializePrijava());
+        fStudentNew.setOdobravanje(initializaOdobravanje());
+        fStudentNew.setKomisija(initializeKomisija());
+
+    }
+
+    @Override
+    public void odobri() {
+        fStudentNew.setPrijava(initializePrijava());
+    }
+
+    private PPrijavaDiplomskogRada initializePrijava() {
+        PPrijavaDiplomskogRada pPrijavaDiplomskogRada = new PPrijavaDiplomskogRada();
+        pPrijavaDiplomskogRada.getjTxtDatumPrijave().setText(diplomskiRad.getDatumPrijave().toString());
+        pPrijavaDiplomskogRada.getjTxtTema().setText(diplomskiRad.getTemaDiplomskogRada().toString());
+        pPrijavaDiplomskogRada.getjBtnSearch().setVisible(false);
+        return pPrijavaDiplomskogRada;
+    }
+
+    private POdobravanjeDiplomskogRada initializaOdobravanje() {
+        POdobravanjeDiplomskogRada pOdobravanjeDiplomskogRada = new POdobravanjeDiplomskogRada();
+        pOdobravanjeDiplomskogRada.getjTxtDatumKadaJeOdobren().setText(diplomskiRad.getDatumKadJeOdobren().toString());
+        pOdobravanjeDiplomskogRada.getjBtnEnterKomisija().setVisible(false);
+        return pOdobravanjeDiplomskogRada;
+    }
+
+    private PKomisija initializeKomisija() {
+        PKomisija pKomisija = new PKomisija();
+        pKomisija.getјTblKomisija().setModel(new KomisijaTableModel(diplomskiRad.getKomisija()));
+        pKomisija.getјTblKomisija().setEnabled(false);
+        return pKomisija;
+    }
+
+    private POdbraniDiplomskiRad initializeOdbrani() {
+        POdbraniDiplomskiRad pOdbraniDiplomskiRad = new POdbraniDiplomskiRad();
+        pOdbraniDiplomskiRad.getjDatumOdbrane().setDate(new Date(diplomskiRad.getDatumOdbrane().getYear(), diplomskiRad.getDatumOdbrane().getMonthValue() - 1, diplomskiRad.getDatumOdbrane().getDayOfMonth()));
+        pOdbraniDiplomskiRad.getjSpinnerOcena().setValue(diplomskiRad.getOcena());
+        pOdbraniDiplomskiRad.getjDatumOdbrane().setEnabled(false);
+        pOdbraniDiplomskiRad.getjSpinnerOcena().setEnabled(false);
+        return pOdbraniDiplomskiRad;
+    }
+
+    @Override
+    public void prijavi() {
+    }
+
+    @Override
+    public void setDiplomskiRad(DCDiplomskiRad diplomskiRad) {
+        this.diplomskiRad = diplomskiRad;
+
+    }
+
+    @Override
+    public void view() {
+        fStudentNew.setPrijava(initializePrijava());
+        fStudentNew.setOdobravanje(initializaOdobravanje());
+        fStudentNew.setKomisija(initializeKomisija());
+        fStudentNew.setOdbrana(initializeOdbrani());
+    }
+
 }
